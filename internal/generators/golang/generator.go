@@ -7,6 +7,7 @@ import (
 	"slices"
 	"strings"
 	"text/template"
+	"time"
 
 	"github.com/deronyan-llc/dwim/internal/common"
 	"github.com/deronyan-llc/dwim/internal/generators"
@@ -16,10 +17,22 @@ type GoSrcGenerator struct {
 	generators.SrcGenerator
 }
 
+// combine all the imports and types from all the classes together
+type GoStructs struct {
+	Comment string
+	Package string
+	Imports []string
+	Classes []*common.SchemaClass
+}
+
 // generateGoCode generates GoLang code based on the given SchemaClass map.
 func (g GoSrcGenerator) Generate(schemaContext *common.SchemaContext) error {
 	const tmpl = `package {{.Package}}
-	
+
+/*
+{{ .Comment }}
+*/
+
 {{- if .Imports }}
 
 import (
@@ -36,7 +49,7 @@ import (
 type {{ .TermString | localName | sanitizeName | title }} struct {
 		{{- if .Properties }}
 			{{- range .Properties }}
-	{{ .TermString | localName | sanitizeName | title }} {{ .LangType }} ` +
+	{{ .TermString | localName | sanitizeName | title }} {{ .GoLangType }} ` +
 		"`json:\"{{ .TermString | localName | sanitizeName | lower }}\"`" +
 		"{{ .Comment }}" + `
 			{{- end }}
@@ -66,6 +79,7 @@ type {{ .TermString | localName | sanitizeName | title }} struct {
 	)
 
 	goStructs := &GoStructs{
+		Comment: fmt.Sprintf("Generated code. DO NOT EDIT. %s", time.Now().Format(time.RFC3339)),
 		Package: schemaContext.SchemaPath.StrippedFileName,
 		Imports: []string{},
 		Classes: []*common.SchemaClass{},
@@ -77,11 +91,6 @@ type {{ .TermString | localName | sanitizeName | title }} struct {
 			}
 		}
 		goStructs.Classes = append(goStructs.Classes, classes)
-	}
-
-	// now map all of the classes to their GoStructs
-	for _, class := range goStructs.Classes {
-		SourceMap[class.Term] = goStructs
 	}
 
 	// Generate a Go source for the classes...

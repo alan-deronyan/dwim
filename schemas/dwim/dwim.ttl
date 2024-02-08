@@ -43,9 +43,12 @@
 
 <http://dwim.xyz/schemas/2024/01/dwim#inputPath>
     a void:DatatypeProperty ;
+    rdfs:domain <http://dwim.xyz/schemas/2024/01/dwim#Dataset> ;
+    rdfs:range xsd:string ;
 .
 
 <http://dwim.xyz/schemas/2024/01/dwim#outputPath>
-    a rdf:Property, owl:DatatypeProperty ;
     a void:DatatypeProperty ;
+    rdfs:domain <http://dwim.xyz/schemas/2024/01/dwim#Dataset> ;
+    rdfs:range xsd:string ;
 .
