@@ -34,12 +34,9 @@ func (g GoSrcGenerator) Generate(schemaContext *common.SchemaContext) error {
 */
 
 {{- if .Imports }}
-
 import (
 {{ .Imports | imports }}
 )
-
-
 {{- end }}
 
 {{- if .Classes }}

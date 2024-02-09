@@ -6,7 +6,12 @@ build: # Build DWIM
 
 # Generate structs from schemas, depends on build target above
 generate: build
+	@alias swagger='docker run --rm -it  --user $(id -u):$(id -g) -e GOPATH=$(go env GOPATH):/go -v $HOME:$HOME -w $(pwd) quay.io/goswagger/swagger'
 	./bin/schema_gen
+
+deps:
+	@echo "Installing dependencies..."
+	@docker pull quay.io/goswagger/swagger
 
 fluree-docker:
 	@echo "Initializing Fluree Docker..."
