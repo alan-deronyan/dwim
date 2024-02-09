@@ -27,6 +27,7 @@
 
 <http://dwim.xyz/schemas/2024/01/dwim#Dataset>
     a void:Dataset ;
+    void:uriSpace <http://dwim.xyz/schemas/2024/01/dwim#> ;
     rdfs:comment "Dataset for DWIM" ;
     rdfs:label "DWIM Dataset" ;
     dcterms:created "2024-01-01"^^xsd:date ;
@@ -39,6 +40,10 @@
     dcterms:description "Dataset for DWIM" ;
     dcterms:title "DWIM Dataset" ;
     dcterms:language "en" ;
+.
+
+<http://dwim.xyz/schemas/2024/01/dwim#Dataset>
+    a void:Feature ;
 .
 
 <http://dwim.xyz/schemas/2024/01/dwim#inputPath>

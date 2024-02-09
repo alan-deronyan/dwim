@@ -8,8 +8,11 @@ github.com/deronyan-llc/rdf v1.0.2 h1:clg9R3JAL/R+3DKDUak84yLjb3GvetppmpDQP+O3C6
 github.com/deronyan-llc/rdf v1.0.2/go.mod h1:MsZ1p21S/vglQs6j4CMm0//Vn0c5PVofxbXv1bdVGFo=
 github.com/linkeddata/gojsonld v0.0.0-20170418210642-4f5db6791326 h1:YP3lfXXYiQV5MKeUqVnxRP5uuMQTLPx+PGYm1UBoU98=
 github.com/linkeddata/gojsonld v0.0.0-20170418210642-4f5db6791326/go.mod h1:nfqkuSNlsk1bvti/oa7TThx4KmRMBmSxf3okHI9wp3E=
+github.com/mattn/go-sqlite3 v1.9.0/go.mod h1:FPy6KqzDD04eiIsT53CuJW3U88zkxoIYsOqkbpncsNc=
 github.com/rychipman/easylex v0.0.0-20160129204217-49ee7767142f h1:L2/fBPABieQnQzfV40k2Zw7IcvZbt0CN5TgwUl8zDCs=
 github.com/rychipman/easylex v0.0.0-20160129204217-49ee7767142f/go.mod h1:MZ2GRTcqmve6EoSbErWgCR+Ash4p8Gc5esHe8MDErss=
+github.com/spy16/fabric v0.0.0-20221112142818-8eb1b2fb5d5c h1:KFc+TeD/vqAL+Cy8pNruXL9XuUAtVBlWYlAQ/W3e3Cg=
+github.com/spy16/fabric v0.0.0-20221112142818-8eb1b2fb5d5c/go.mod h1:t98NuzofQsJdaVmlbWDy7KeUpCrktkRSx3PtlNyKrzs=
 golang.org/x/exp v0.0.0-20231214170342-aacd6d4b4611 h1:qCEDpW1G+vcj3Y7Fy52pEM1AWm3abj8WimGYejI3SC4=
 golang.org/x/exp v0.0.0-20231214170342-aacd6d4b4611/go.mod h1:iRJReGqOEeBhDZGkGbynYwcHlctCvnjTYIamk7uXpHI=
 golang.org/x/text v0.14.0 h1:ScX5w1eTa3QqT8oi6+ziP7dTV1S2+ALU0bI+0zXKWiQ=

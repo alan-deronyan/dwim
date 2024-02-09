@@ -8,6 +8,7 @@ require (
 	github.com/deronyan-llc/rdf v1.0.2 // indirect
 	github.com/linkeddata/gojsonld v0.0.0-20170418210642-4f5db6791326 // indirect
 	github.com/rychipman/easylex v0.0.0-20160129204217-49ee7767142f // indirect
+	github.com/spy16/fabric v0.0.0-20221112142818-8eb1b2fb5d5c // indirect
 	golang.org/x/exp v0.0.0-20231214170342-aacd6d4b4611 // indirect
 	golang.org/x/text v0.14.0 // indirect
 )
