@@ -1,7 +1,7 @@
 package dwim
 
 /*
-Generated code. DO NOT EDIT. 2024-02-09T14:47:45-05:00
+Generated code. DO NOT EDIT. 2024-02-11T21:51:24-05:00
 */
 
 // DatasetDescription is a generated struct representing the <http://dwim.xyz/schemas/2024/01/dwim#DatasetDescription> class.

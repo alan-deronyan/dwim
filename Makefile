@@ -13,10 +13,18 @@ deps:
 	@echo "Installing dependencies..."
 	@docker pull quay.io/goswagger/swagger
 
-fluree-docker:
-	@echo "Initializing Fluree Docker..."
+fluree-destroy: fluree-stop
+	@echo "Destroying Fluree Docker..."
+	@docker container rm fluree_server
+	@docker volume rm fluree_server
+
+fluree-create:
+	@echo "Creating Fluree Docker..."
 	@docker volume create fluree_server
 	@docker create --name "fluree_server" -p 58090:8090 -v fluree_server:/opt/fluree-server/data fluree/server
+
+fluree-rebuild: fluree-destroy fluree-create fluree-start
+	@ echo "Rebuild Fluree Docker Done."
 
 fluree-start:
 	@echo "Starting Fluree..."
@@ -25,3 +33,7 @@ fluree-start:
 fluree-stop:
 	@echo "Stopping Fluree..."
 	@docker stop fluree_server
+
+fluree-ping:
+	@echo "Pinging Fluree..."
+	@go run cmd/fluree/main.go
