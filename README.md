@@ -14,7 +14,7 @@ Essentially, this is a low-code framework for defining data structures, API's, a
 General args for generating code from input schemas
 
 ```
-$ go run cmd/schema_gen/main.go <input-dir> <output-dir>
+$ go run cmd/dwim/main.go <input-dir> <output-dir>
 ```
 
 `<input-dir>` is the input directory where schemas to be translated into code exist
@@ -26,7 +26,7 @@ $ go run cmd/schema_gen/main.go <input-dir> <output-dir>
 
 #### Generate GoLang structs from the built-in DWIM schemas for ERC-721 tokens, and Ethereum Core concepts
 ```
-$ go run cmd/schema_gen/main.go schemas/dwim gen/schemas/DWIM
+$ go run cmd/dwim/main.go schemas/dwim gen/schemas/DWIM
 
 Parsing RDF schema for file(erc_721.ttl)
 Parsing RDF schema for file(eth_core.ttl)

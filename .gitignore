@@ -22,7 +22,7 @@ tmp*.json
 *~
 
 # Misc
-cmd/schema_gen/__debug_bin*
+cmd/dwim/__debug_bin*
 
 # Downloaded Files
 blocks/

@@ -2,12 +2,12 @@
 
 build: # Build DWIM
 	@echo "Building DWIM..."
-	@go build -o bin/schema_gen cmd/schema_gen.go ingest/main.go
+	@go build -o bin/dwim cmd/dwim.go ingest/main.go
 
 # Generate structs from schemas, depends on build target above
 generate: build
 	@alias swagger='docker run --rm -it  --user $(id -u):$(id -g) -e GOPATH=$(go env GOPATH):/go -v $HOME:$HOME -w $(pwd) quay.io/goswagger/swagger'
-	./bin/schema_gen
+	./bin/dwim
 
 deps:
 	@echo "Installing dependencies..."
