@@ -1,0 +1,33 @@
+@base <http://www.dwim.xyz/project#> .
+
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+@prefix doap:    <http://usefulinc.com/ns/doap#> .
+
+<http://www.dwim.xyz/project#>
+    a           doap:Project ;
+    doap:bug-database
+                <https://github.com/deronyan-llc/dwim/issues> ;
+    doap:category
+                <http://projects.apache.org/category/library> ;
+    doap:created
+                "2024-01-01" ;
+    doap:description
+                "dwim aims to capture software services and environment specifications using RDF, and can generate code for a variety of programming languages"@en ;
+    doap:developer
+                [ a           foaf:Person ;
+                  foaf:mbox   <mailto:alan@deronyan.com> ;
+                  foaf:name   "Alan Snyder"
+                ] ;
+    doap:download-page
+                <https://github.com/deronyan-llc/dwim> ;
+    doap:homepage
+                <http://www.dwim.xyz> ;
+    doap:license
+                <https://github.com/deronyan-llc/LICENSE> ;
+    doap:mailing-list
+                <http://www.dwim.xyz/content.asp?pageID=Support> ;
+    doap:name   "dwim"@en ;
+    doap:programming-language
+                "GoLang"@en, "Python"@en ;
+    doap:shortdesc
+                "A platform and tools for developing applications using Semantic Web and Linked Data models"@en .

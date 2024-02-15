@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"log"
 	"os"
@@ -8,6 +9,8 @@ import (
 
 	"git.rwth-aachen.de/acs/public/ontology/owl/owl2go/pkg/rdf"
 	"github.com/deronyan-llc/dwim/internal/clients"
+
+	drdf "github.com/deronyan-llc/rdf/rdf"
 )
 
 func main() {
@@ -25,8 +28,6 @@ func main() {
 	//var goSrcGenerator generators.SrcGenerator = golang.GoSrcGenerator{}
 	flureeClient := clients.NewFlureeClient("http://localhost:58090")
 
-	// convert RDF Turtle/TTL file into LD-JSON
-
 	for _, file := range files {
 		inputName := inputDir + "/" + file.Name()
 
@@ -36,71 +37,90 @@ func main() {
 		fileName := fileSplits[fileSplitsLen-2]
 		fileExt := fileSplits[fileSplitsLen-1]
 
-		// parse triples as either TTL or LD-JSON
-		var triples []rdf.Triple
-		reader, err := os.Open(inputName)
-		if err != nil {
-			fmt.Printf("Error opening file(%s): %v\n", file.Name(), err)
-			continue
-		}
-
 		var buf []byte
 		// read the TTL or LD-JSON file
-		if fileExt == "ttl" {
-			triples, err = rdf.DecodeTTL(reader)
+		if fileExt == "xml" {
+			// Read the RDF schema file.
+			data, err := os.ReadFile(inputName)
 			if err != nil {
-				fmt.Printf("Error decoding TTL for file(%s): %v\n", file.Name(), err)
+				fmt.Printf("Error reading file(%s): %v\n", file.Name(), err)
 				continue
 			}
+			reader := bytes.NewReader(data)
 
-			// encode the triples as LD-JSON
-			out, err := os.CreateTemp("", "dwim-"+fileName+"-*.ld-json")
+			// Parse the RDF schema.
+			decoder := drdf.NewTripleDecoder(reader, drdf.RDFXML)
+			triples, err := decoder.DecodeAll()
 			if err != nil {
-				fmt.Printf("Error creating temp file for JSON-LD for file(%s): %v\n", file.Name(), err)
+				fmt.Printf("Error decoding file(%s): %v\n", file.Name(), err)
 				continue
 			}
-			tmpPath := out.Name()
-			err = rdf.EncodeJSONLD(triples, out)
-			out.Close()
-			if err != nil {
-				fmt.Printf("Error encoding JSON-LD for file(%s): %v\n", file.Name(), err)
-				continue
-			}
-
-			in, err := os.Open(tmpPath)
-			if err != nil {
-				fmt.Printf("Error opening temp file(%s): %v\n", tmpPath, err)
-				continue
-			}
-			inInfo, err := in.Stat()
-			if err != nil {
-				fmt.Printf("Error getting file info for temp file(%s): %v\n", tmpPath, err)
-				continue
-			}
-
-			buf = make([]byte, inInfo.Size())
-			_, err = in.Read(buf)
-			if err != nil {
-				fmt.Printf("Error creating ledger(%s): %v\n", file.Name(), err)
-				continue
-			}
-
-		} else if fileExt == "json" || fileExt == "ld-json" || fileExt == "ldjson" || fileExt == "jsonld" || fileExt == "json-ld" {
-			inInfo, err := reader.Stat()
-			if err != nil {
-				fmt.Printf("Error getting file info for temp file(%s): %v\n", inputName, err)
-				continue
-			}
-
-			buf = make([]byte, inInfo.Size())
-			_, err = reader.Read(buf)
-			if err != nil {
-				fmt.Printf("Error reading ld-json file(%s): %v\n", file.Name(), err)
-				continue
-			}
+			drdf.NewTripleEncoder(os.Stdout, drdf.Turtle).EncodeAll(triples)
 		} else {
-			fmt.Printf("Error: Unsupported file extension(%s) for file(%s)\n", fileExt, file.Name())
-			continue
+			// parse triples as either TTL or LD-JSON
+			var triples []rdf.Triple
+			reader, err := os.Open(inputName)
+			if err != nil {
+				fmt.Printf("Error opening file(%s): %v\n", file.Name(), err)
+				continue
+			}
+
+			if fileExt == "ttl" {
+				triples, err = rdf.DecodeTTL(reader)
+				if err != nil {
+					fmt.Printf("Error decoding TTL for file(%s): %v\n", file.Name(), err)
+					continue
+				}
+
+				// encode the triples as LD-JSON
+				out, err := os.CreateTemp("", "dwim-"+fileName+"-*.ld-json")
+				if err != nil {
+					fmt.Printf("Error creating temp file for JSON-LD for file(%s): %v\n", file.Name(), err)
+					continue
+				}
+				tmpPath := out.Name()
+				err = rdf.EncodeJSONLD(triples, out)
+				out.Close()
+				if err != nil {
+					fmt.Printf("Error encoding JSON-LD for file(%s): %v\n", file.Name(), err)
+					continue
+				}
+
+				in, err := os.Open(tmpPath)
+				if err != nil {
+					fmt.Printf("Error opening temp file(%s): %v\n", tmpPath, err)
+					continue
+				}
+				inInfo, err := in.Stat()
+				if err != nil {
+					fmt.Printf("Error getting file info for temp file(%s): %v\n", tmpPath, err)
+					continue
+				}
+
+				buf = make([]byte, inInfo.Size())
+				_, err = in.Read(buf)
+				if err != nil {
+					fmt.Printf("Error creating ledger(%s): %v\n", file.Name(), err)
+					continue
+				}
+
+			} else if fileExt == "json" || fileExt == "ld-json" || fileExt == "ldjson" || fileExt == "jsonld" || fileExt == "json-ld" {
+				inInfo, err := reader.Stat()
+				if err != nil {
+					fmt.Printf("Error getting file info for temp file(%s): %v\n", inputName, err)
+					continue
+				}
+
+				buf = make([]byte, inInfo.Size())
+				_, err = reader.Read(buf)
+				if err != nil {
+					fmt.Printf("Error reading ld-json file(%s): %v\n", file.Name(), err)
+					continue
+				}
+			} else {
+				fmt.Printf("Error: Unsupported file extension(%s) for file(%s)\n", fileExt, file.Name())
+				continue
+			}
 		}
 
 		// create a ledger in fluree from LD-JSON
