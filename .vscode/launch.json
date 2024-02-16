@@ -5,7 +5,8 @@
             "name": "PyDwim",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/cmd/pydwim/main.py",
+            "program": "${workspaceFolder}/python/main.py",
+            "args": ["--ingest", "schemas/w3_org"]
         },
         {
             "name": "Fluree-Ping",
