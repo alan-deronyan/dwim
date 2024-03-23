@@ -6,9 +6,10 @@ import sys
 from fluree.client import FlureeClient
 
 def main():
-    print(sys.path)
+    print(f'Path: {sys.path}')
     parser = argparse.ArgumentParser(description="PyDWIM")
     parser.add_argument('--ingest', type=str, help='Read schemas files in directory')
+    parser.add_argument('--generate', type=str, help='Generate code for ledger classes')
     args = parser.parse_args()
 
     if args.ingest:
@@ -37,8 +38,10 @@ def main():
             b = g.serialize(format='json-ld', encoding='utf-8')
             s = b.decode('utf-8')
             
-            fc = FlureeClient('http://localhost:8090', f'schemas/{fn}')
+            fc = FlureeClient('http://localhost:58090', f'schemas/{fn}')
             fc.transact(None, s, None)
+    elif args.generate:
+        print(f'Generating classes for {args.generate}')
     else:
         parser.print_help()
 
